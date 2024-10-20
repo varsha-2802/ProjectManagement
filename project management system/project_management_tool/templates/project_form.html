@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if form.instance.pk %}Edit{% else %}Create{% endif %} Project{% endblock %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container-fluid bg-light py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-6">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-gradient-primary text-white">
+                    <h2 class="h3 mb-0 font-weight-bold text-center">{% if form.instance.pk %}Edit{% else %}Create{% endif %} Project</h2>
+                </div>
+                <div class="card-body p-5">
+                    <form method="post" novalidate class="needs-validation">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="mb-4">
+                                <label for="{{ field.id_for_label }}" class="form-label text-muted fw-bold small text-uppercase">
+                                    {{ field.label }}
+                                    {% if field.field.required %}
+                                        <span class="text-danger">*</span>
+                                    {% endif %}
+                                </label>
+                                {% if field.errors %}
+                                    <div class="alert alert-danger py-2 fade show" role="alert">
+                                        <i class="fas fa-exclamation-circle me-2"></i>{{ field.errors }}
+                                    </div>
+                                {% endif %}
+                                {% render_field field class="form-control form-control-lg" placeholder=field.label %}
+                                {% if field.help_text %}
+                                    <div class="form-text mt-1 small">{{ field.help_text|safe }}</div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg mb-3 mb-md-0 w-100 w-md-auto">
+                                <i class="fas fa-save me-2"></i>Save Project
+                            </button>
+                            <a href="{% url 'project_list' %}" class="btn btn-outline-secondary btn-lg w-100 w-md-auto">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Project List
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-color: #4e73df;
+        --primary-dark: #2e59d9;
+        --secondary-color: #858796;
+        --success-color: #1cc88a;
+        --info-color: #36b9cc;
+        --warning-color: #f6c23e;
+        --danger-color: #e74a3b;
+        --light-color: #f8f9fc;
+        --dark-color: #5a5c69;
+    }
+
+    body {
+        background-color: var(--light-color);
+        color: var(--dark-color);
+    }
+
+    .bg-gradient-primary {
+        background-color: var(--primary-color);
+        background-image: linear-gradient(180deg, var(--primary-color) 10%, var(--primary-dark) 100%);
+        background-size: cover;
+    }
+
+    .card {
+        border: none;
+        border-radius: 0.35rem;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.25) !important;
+    }
+
+    .card-header {
+        padding: 1.5rem;
+    }
+
+    .form-control, .form-select {
+        border: 1px solid #d1d3e2;
+        border-radius: 0.35rem;
+        padding: 1rem;
+        font-size: 0.9rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #bac8f3;
+        box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+    }
+
+    .btn {
+        border-radius: 0.35rem;
+        padding: 0.75rem 1.5rem;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .btn-primary:hover {
+        background-color: var(--primary-dark);
+        border-color: var(--primary-dark);
+        transform: translateY(-1px);
+    }
+
+    .btn-outline-secondary {
+        color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+
+    .btn-outline-secondary:hover {
+        color: #fff;
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        transform: translateY(-1px);
+    }
+
+    .text-danger {
+        color: var(--danger-color) !important;
+    }
+
+    .form-text {
+        color: var(--secondary-color);
+        font-size: 0.8rem;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+        border-radius: 0.35rem;
+    }
+
+    @media (max-width: 767.98px) {
+        .card-body {
+            padding: 2rem;
+        }
+    }
+
+    .form-label {
+        margin-bottom: 0.5rem;
+    }
+
+    .needs-validation .form-control:invalid {
+        border-color: var(--danger-color);
+    }
+
+    .needs-validation .form-control:invalid:focus {
+        border-color: var(--danger-color);
+        box-shadow: 0 0 0 0.25rem rgba(231, 74, 59, 0.25);
+    }
+
+    .fade {
+        transition: opacity 0.15s linear;
+    }
+
+    @keyframes slideInDown {
+        from {
+            transform: translate3d(0, -100%, 0);
+            visibility: visible;
+        }
+        to {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+    .alert {
+        animation-duration: 0.5s;
+        animation-fill-mode: both;
+        animation-name: slideInDown;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Example of custom JavaScript for enhanced UX
+    document.addEventListener('DOMContentLoaded', function() {
+        var form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+</script>
+{% endblock %}

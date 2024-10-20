@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #777b7e;
+        color: #333;
+        line-height: 1.6;
+    }
+    .container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .project-list-container {
+        background-color: #161515;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        padding: 40px;
+        transition: box-shadow 0.3s ease;
+    }
+    .project-list-container:hover {
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    .project-list-title {
+        color: #2c3e50;
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .project-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    .project-item {
+        padding: 15px 0;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background-color 0.3s ease;
+    }
+    .project-item:hover {
+        background-color: #f8f9fa;
+    }
+    .project-link {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 18px;
+        transition: color 0.3s ease;
+    }
+    .project-link:hover {
+        color: #2980b9;
+    }
+    .project-actions {
+        font-size: 14px;
+    }
+    .btn-link {
+        padding: 5px 10px;
+        margin-left: 10px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+    .btn-link:hover {
+        background-color: #e9ecef;
+    }
+    .btn-success {
+        background-color: #2ecc71;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+    .btn-success:hover {
+        background-color: #27ae60;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
+    }
+    .text-danger {
+        color: #e74c3c;
+    }
+    .mt-4 {
+        margin-top: 2rem;
+    }
+    .create-project {
+        text-align: center;
+        margin-top: 30px;
+    }
+</style>
+
+<div class="container">
+    <div class="project-list-container card shadow-sm p-4 mb-5 bg-white rounded">
+        <h2 class="project-list-title">All Projects</h2>
+        <ul class="project-list">
+            {% for project in projects %}
+                <li class="project-item">
+                    <a href="{% url 'project_detail' project.id %}" class="project-link">{{ project.creator.username }}</a>
+                    {% if project.creator == request.user %}
+                        <span class="project-actions">
+                            | <a href="{% url 'project_edit' project.id %}" class="btn btn-link btn-sm">Edit</a>
+                            | <a href="{% url 'project_delete' project.id %}" class="btn btn-link btn-sm text-danger">Delete</a>
+                        </span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="create-project mt-4">
+            <a href="{% url 'project_create' %}" class="btn btn-success">Create New Project</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

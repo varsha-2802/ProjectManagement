@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <div class="media">
+            <div class="media-body">
+                <h2 class="account-heading">{{ user.username }}</h2>
+                <p class="text-secondary">{{ user.email }}</p>
+            </div>
+        </div>
+        <div class="mt-4">
+            <h3>Your Projects</h3>
+            <div class="list-group">
+                {% for project in user.project_set.all %}
+                    <a href="{% url 'project_detail' project.id %}" class="list-group-item list-group-item-action">
+                        {{ project.title }}
+                    </a>
+                {% empty %}
+                    <p class="text-muted">You haven't created any projects yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="mt-4">
+            <h3>Assigned Tasks</h3>
+            <div class="list-group">
+                {% for task in user.task_set.all %}
+                    <a href="{% url 'project_detail' task.project.id %}" class="list-group-item list-group-item-action">
+                        {{ task.title }} - {{ task.project.title }}
+                    </a>
+                {% empty %}
+                    <p class="text-muted">You don't have any assigned tasks.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

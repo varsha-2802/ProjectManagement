@@ -1,0 +1,334 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Project Management System{% endblock %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    body {
+        font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #a19791;;
+        color: #333;
+        line-height: 1.8;
+    }
+
+    .container {
+        max-width: 1200px;
+        padding: 3rem 2rem;
+    }
+
+    h1, h2 {
+        color: #1a3b5d;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2.75rem;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 0.75rem;
+        position: relative;
+    }
+
+    h1::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background-color: #2ecc71;
+    }
+
+    h2 {
+        font-size: 2.25rem;
+        margin-top: 2.5rem;
+    }
+
+    .lead {
+        font-size: 1.25rem;
+        color: #555;
+        font-weight: 300;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        border-color: #3498db;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-primary::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300px;
+        height: 300px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        transition: transform 0.5s;
+    }
+
+    .btn-primary:hover::after {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+        border-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-lg {
+        padding: 0.875rem 1.75rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.75px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1), 0 8px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #1a3b5d;
+    }
+
+    .card-subtitle {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #3498db;
+        margin-bottom: 0.75rem;
+    }
+
+    .card-text {
+        color: #555;
+        font-size: 1.1rem;
+    }
+
+    .card-footer {
+        background-color: rgba(0, 0, 0, 0.03);
+        border-top: 1px solid rgba(0, 0, 0, 0.125);
+        padding: 1.25rem 2rem;
+    }
+
+    .bg-primary, .bg-success, .bg-info {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bg-primary::before, .bg-success::before, .bg-info::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 100%);
+        transform: rotate(30deg);
+    }
+
+    .bg-primary {
+        background-color: #3498db !important;
+    }
+
+    .bg-success {
+        background-color: #2ecc71 !important;
+    }
+
+    .bg-info {
+        background-color: #1abc9c !important;
+    }
+
+    .display-4 {
+        font-weight: 700;
+        font-size: 3rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .fas {
+        margin-right: 0.75rem;
+    }
+
+    .btn-outline-primary {
+        color: #3498db;
+        border-color: #3498db;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #3498db;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+    }
+
+    @media (max-width: 768px) {
+        .text-md-end {
+            text-align: left !important;
+            margin-top: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 2.25rem;
+        }
+        
+        h2 {
+            font-size: 2rem;
+        }
+        
+        .display-4 {
+            font-size: 2.5rem;
+        }
+    }
+
+    /* Additional professional touches */
+    .section {
+        padding: 4rem 0;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+        display: inline-block;
+        position: relative;
+        padding-bottom: 1rem;
+    }
+
+    .section-title h2::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 50px;
+        height: 3px;
+        background-color: #3498db;
+        transform: translateX(-50%);
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+        color: #3498db;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .testimonial:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .testimonial-author {
+        font-weight: 600;
+        color: #1a3b5d;
+    }
+</style>
+<div class="container">
+    <h1 class="mb-4">Welcome to the Project Management System</h1>
+    
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <p class="lead">Streamline your project workflows, collaborate effectively, and boost productivity with our comprehensive project management solution.</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="{% url 'project_create' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-plus-circle me-2"></i>Create New Project
+            </a>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-project-diagram me-2"></i>Total Projects</h5>
+                    <p class="card-text display-4">{{ total_projects }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-tasks me-2"></i>Active Tasks</h5>
+                    <p class="card-text display-4">{{ active_tasks }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-users me-2"></i>Team_Leaders</h5>
+                    <p class="card-text display-4">{{ team_leaders}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mb-3">Quick Actions</h2>
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <a href="{% url 'project_list' %}" class="btn btn-outline-primary btn-lg w-100">
+                <i class="fas fa-list me-2"></i>View All Projects
+            </a>
+        </div>
+        
+        </div>
+        
+        
+
+    <h2 class="mb-3">Recent Projects</h2>
+    <div class="row">
+        {% for project in recent_projects %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ project.status }}</h6>
+                        <p class="card-text">{{ project.description|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'project_detail' project.id %}" class="btn btn-sm btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col">
+                <p>No recent projects available.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
